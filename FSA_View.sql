@@ -170,9 +170,7 @@ SELECT
         CAST(IFNULL(b.`Short-Term Notes Payable`,0)/IFNULL(b.`Total Assets`,0) AS DECIMAL(10,6)) AS `CS Short-Term Notes Payable`,
 
 /* Revolving Credit Line */     
-    CAST(IFNULL(b.`Revolving Credit Line`,0) AS 
-    
-    asdn DECIMAL(15,2)) AS `Revolving Credit Line`,
+    CAST(IFNULL(b.`Revolving Credit Line`,0) AS DECIMAL(15,2)) AS `Revolving Credit Line`,
 		-- CS Revolving Credit Line
         CAST(IFNULL(b.`Revolving Credit Line`,0)/IFNULL(b.`Total Assets`,0) AS DECIMAL(10,6)) AS `CS Revolving Credit Line`,
 
