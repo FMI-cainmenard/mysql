@@ -45,10 +45,6 @@ SELECT
 		END AS `NAICS Industry`,
     -- Primary Sector
     a.`Primary_Sector__c` AS `Primary Sector`,
-    -- Peer Group
-    IFNULL(a.`Peer Group1`,'N/A') AS `Peer Group`, 
-    -- Peer Group Status 
-    IFNULL(a.`Peer Group1 Status`,'N/A') AS `Peer Group Status`,
 
 /* Balance Sheet - Assets */
 
@@ -532,6 +528,7 @@ SELECT
         Insights.RMA_Master_full_cast AS c
 			ON a.`NaicsCode` = REPLACE(c.`NAICS`,"P","")
             AND b.`Year` = c.`Year`
+
             
-    GROUP BY `Company ID`, `Company Name`, `Salesforce ID`, `Year`, `NAICS Code`, `NAICS Industry`, `Primary Sector`, `Peer Group`,`Peer Group Status`
+    GROUP BY `Company ID`, `Company Name`, `Salesforce ID`, `Year`, `NAICS Code`, `NAICS Industry`, `Primary Sector`
 ;
