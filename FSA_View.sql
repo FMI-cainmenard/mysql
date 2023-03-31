@@ -1,5 +1,7 @@
 
-CREATE OR REPLACE VIEW Insights.FSA_View AS 
+USE Insights 
+
+CREATE OR REPLACE VIEW FSA_View AS 
 SELECT 
 
 /* Demographics */
@@ -519,13 +521,13 @@ SELECT
     -- Months in Backlog
     CAST(IFNULL(a.`Months in Backlog`,0) AS DECIMAL(10,6)) AS `Months in Backlog`
     
-    FROM Insights.FSA_ratio_cast AS a 
+    FROM FSA_ratio_cast AS a 
 		INNER JOIN 
-        Insights.FSA_account_cast AS b
+        FSA_account_cast AS b
 			ON a.Data_Key__c = b.Data_Key__c
 			AND a.`Year` = b.`Year`
 		LEFT JOIN 
-        Insights.RMA_Master_full_cast AS c
+        RMA_Master_full_cast AS c
 			ON a.`NaicsCode` = REPLACE(c.`NAICS`,"P","")
             AND b.`Year` = c.`Year`
 
