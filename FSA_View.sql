@@ -530,14 +530,6 @@ FROM FSA_ratio_cast AS a
     RMA_Master_full_cast AS c
         ON a.`NaicsCode` = REPLACE(c.`NAICS`,"P","")
         AND b.`Year` = c.`Year`
-    LEFT OUTER JOIN `company_peer_group` d
-        ON a.Data_Key__c = d.`Company ID`
-    UNION 
-
-SELECT 
-
-
-
 
 GROUP BY `Company ID`, `Company Name`, `Salesforce ID`, `Year`, `NAICS Code`, `NAICS Industry`, `Primary Sector`
 ;
