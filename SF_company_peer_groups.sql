@@ -1,4 +1,3 @@
-
 USE Insights;
 
 CREATE TABLE SF_company_peer_groups
@@ -48,4 +47,3 @@ FROM
             AND ((`SF Peer Groups 2`.`Id` <> '') OR (`SF Peer Groups 2`.`Id` IS NULL))
     ) AS sf2
 ORDER BY `PG Company Name`;
-
