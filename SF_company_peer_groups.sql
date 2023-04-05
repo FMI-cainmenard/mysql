@@ -1,6 +1,24 @@
+
+-- Use Insights database
 USE Insights;
 
-CREATE TABLE SF_company_peer_groups
+-- Drop if exists
+DROP TABLE IF EXISTS SF_company_peer_groups;
+
+-- Create the SF_company_peer_groups table
+CREATE TABLE IF NOT EXISTS SF_company_peer_groups (
+  Company_Account_ID VARCHAR(255),
+  PG_Company_Name VARCHAR(255),
+  PG_Company_ID VARCHAR(255),
+  Peer_Group_ID VARCHAR(255),
+  Peer_Group_Name FLOAT,
+  PRIMARY KEY (Company_Account_ID, Peer_Group_ID),
+  FOREIGN KEY (Company_Account_ID) REFERENCES SF_account(Id),
+  FOREIGN KEY (Peer_Group_ID) REFERENCES SF_peer_groups(Id)
+);
+
+-- Insert into table
+INSERT INTO SF_company_peer_groups
 SELECT 
     sf1.`Company Account ID`,
     sf1.`PG Company Name`,
@@ -47,3 +65,6 @@ FROM
             AND ((`SF Peer Groups 2`.`Id` <> '') OR (`SF Peer Groups 2`.`Id` IS NULL))
     ) AS sf2
 ORDER BY `PG Company Name`;
+
+
+SELECT * FROM SF_company_peer_groups;
