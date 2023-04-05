@@ -50,8 +50,6 @@ SELECT
 		END AS `NAICS Industry`,
     -- Primary Sector
     a.`Primary_Sector__c` AS `Primary Sector`,
-    -- Peer Group
-    d.`Peer Group Name` AS `Peer Group`, 
 
 /* Balance Sheet - Assets */
 
@@ -536,9 +534,14 @@ SELECT
 			ON a.`NaicsCode` = REPLACE(c.`NAICS`,"P","")
             AND b.`Year` = c.`Year`
 		LEFT JOIN SF_company_peer_groups d 
-			ON a.Data_Key__c = d.`PG Company ID`
+			ON a.Data_Key__c = d.PG_Company_ID
 		LEFT JOIN Company_Alias e
 			ON a.Data_Key__c = e.Data_Key__c
                 
-    GROUP BY a.Data_Key__c, `Company Name`, `Company Alias`, `Salesforce ID`, `Year`, `NAICS Code`, `Peer Group`, `NAICS Industry`, `Primary Sector`
+    GROUP BY a.Data_Key__c, `Company Name`, `Company Alias`, `Salesforce ID`, `Year`, `NAICS Code`,`NAICS Industry`, `Primary Sector`
 ;
+
+
+
+
+
