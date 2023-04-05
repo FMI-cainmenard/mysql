@@ -1,13 +1,15 @@
 
+-- Use Insights database
 USE Insights;
 
+-- Create View
 CREATE OR REPLACE VIEW Insights.FSA_View AS 
 SELECT 
 
 /* Demographics */
 	-- Company ID
-	a.Data_Key__c AS `Company ID`,
     a.`Name` AS `Company Name`,
+
     -- Salesforce ID
     a.`Salesforce ID` AS `Salesforce ID`,
 	-- Year
@@ -523,18 +525,18 @@ SELECT
     -- Months in Backlog
     CAST(IFNULL(a.`Months in Backlog`,0) AS DECIMAL(10,6)) AS `Months in Backlog`
     
-    FROM Insights.FSA_ratio_cast AS a 
+    FROM FSA_ratio_cast AS a 
 		INNER JOIN 
-        Insights.FSA_account_cast AS b
+        FSA_account_cast AS b
 			ON a.Data_Key__c = b.Data_Key__c
 			AND a.`Year` = b.`Year`
 		LEFT JOIN 
-        Insights.RMA_Master_full_cast AS c
+        RMA_Master_full_cast AS c
 			ON a.`NaicsCode` = REPLACE(c.`NAICS`,"P","")
             AND b.`Year` = c.`Year`
 		LEFT JOIN SF_company_peer_groups d 
 			ON a.Data_Key__c = d.`PG Company ID`
-            
-    GROUP BY `Company ID`, `Company Name`, `Salesforce ID`, `Year`, `NAICS Code`, `Peer Group`, `NAICS Industry`, `Primary Sector`
-    ORDER BY `Company Name`, `Year`, `Peer Group`
+
+                
+    GROUP BY a.Data_Key__c, `Company Name`, `Salesforce ID`, `Year`, `NAICS Code`, `Peer Group`, `NAICS Industry`, `Primary Sector`
 ;

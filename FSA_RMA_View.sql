@@ -1,4 +1,8 @@
 
+-- Use Insights Database
+USE Insights;
+
+-- Create RMA_FSA_full_view
 CREATE OR REPLACE VIEW Insights.RMA_FSA_full_View AS 
 SELECT 
 
