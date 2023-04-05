@@ -9,7 +9,8 @@ SELECT
 /* Demographics */
 	-- Company ID
     a.`Name` AS `Company Name`,
-
+    -- Company Alias
+    e.Alias AS `Company Alias`,
     -- Salesforce ID
     a.`Salesforce ID` AS `Salesforce ID`,
 	-- Year
@@ -536,7 +537,8 @@ SELECT
             AND b.`Year` = c.`Year`
 		LEFT JOIN SF_company_peer_groups d 
 			ON a.Data_Key__c = d.`PG Company ID`
-
+		LEFT JOIN Company_Alias e
+			ON a.Data_Key__c = e.Data_Key__c
                 
-    GROUP BY a.Data_Key__c, `Company Name`, `Salesforce ID`, `Year`, `NAICS Code`, `Peer Group`, `NAICS Industry`, `Primary Sector`
+    GROUP BY a.Data_Key__c, `Company Name`, `Company Alias`, `Salesforce ID`, `Year`, `NAICS Code`, `Peer Group`, `NAICS Industry`, `Primary Sector`
 ;
