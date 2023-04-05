@@ -18,7 +18,7 @@ SELECT DISTINCT
     CONCAT(CHAR(FLOOR(RAND() * 26 + 65)), CHAR(FLOOR(RAND() * 26 + 97))) AS Alias
 FROM
     SF_account a
-RIGHT JOIN 
+LEFT JOIN
     SF_peer_groups b
     ON a.Peer_Group__c = b.Id
 LEFT JOIN
@@ -28,4 +28,3 @@ WHERE c.Data_Key__c IS NULL
     AND a.Data_Key__c IS NOT NULL
 GROUP BY
     a.Data_Key__c;
-    
