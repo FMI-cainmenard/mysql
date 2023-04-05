@@ -7,18 +7,25 @@ DROP TABLE IF EXISTS SF_company_peer_groups;
 
 -- Create the SF_company_peer_groups table
 CREATE TABLE IF NOT EXISTS SF_company_peer_groups (
-  Company_Account_ID VARCHAR(255),
-  PG_Company_Name VARCHAR(255),
-  PG_Company_ID VARCHAR(255),
-  Peer_Group_ID VARCHAR(255),
-  Peer_Group_Name FLOAT,
-  PRIMARY KEY (Company_Account_ID, Peer_Group_ID),
-  FOREIGN KEY (Company_Account_ID) REFERENCES SF_account(Id),
-  FOREIGN KEY (Peer_Group_ID) REFERENCES SF_peer_groups(Id)
+    id INT NOT NULL AUTO_INCREMENT,
+    Company_Account_ID VARCHAR(255),
+    PG_Company_Name VARCHAR(255),
+    PG_Company_ID VARCHAR(255),
+    Peer_Group_ID VARCHAR(255),
+    Peer_Group_Name FLOAT,
+    
+    PRIMARY KEY(id),
+    INDEX (Company_Account_ID, Peer_Group_ID),
+    
+    FOREIGN KEY (Company_Account_ID) 
+        REFERENCES SF_account(Id),
+    
+    FOREIGN KEY (Peer_Group_ID) 
+        REFERENCES SF_peer_groups(Id)
 );
 
 -- Insert into table
-INSERT INTO SF_company_peer_groups
+INSERT INTO SF_company_peer_groups (Company_Account_ID, PG_Company_Name, PG_Company_ID, Peer_Group_ID, Peer_Group_Name)
 SELECT 
     sf1.`Company Account ID`,
     sf1.`PG Company Name`,
@@ -68,3 +75,4 @@ ORDER BY `PG Company Name`;
 
 
 SELECT * FROM SF_company_peer_groups;
+
