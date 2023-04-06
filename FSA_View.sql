@@ -185,27 +185,27 @@ SELECT
 		-- CS Revenues 
         CAST(COALESCE((COALESCE(m.revenues,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `CS Revenues`,
 	--  Total Direct Costs  
-    CAST((COALESCE(m.total_direct_costs,0)) AS DECIMAL(15,2)) AS `Total Direct Costs`,
+    CAST(COALESCE(m.total_direct_costs,0) AS DECIMAL(15,2)) AS `Total Direct Costs`,
 		-- Total Direct Costs 
-        CAST(COALESCE((COALESCE(m.total_COGS,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `CS Total Direct Costs`,
+        CAST(COALESCE((COALESCE(m.total_direct_costs,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `CS Total Direct Costs`,
 	--  Labor Costs  
-    CAST((COALESCE(m.labor_cost,0)) AS DECIMAL(15,2)) AS `Labor Costs`,
+    CAST(COALESCE(m.labor_cost,0) AS DECIMAL(15,2)) AS `Labor Costs`,
 		-- CS Labor Costs 
         CAST(COALESCE((COALESCE(m.labor_cost,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `CS Labor Costs`,
 	--  Material Costs  
-    CAST((COALESCE(m.materials_cost,0)) AS DECIMAL(15,2)) AS `Material Costs`,
+    CAST(COALESCE(m.materials_cost,0) AS DECIMAL(15,2)) AS `Material Costs`,
 		-- CS Material Costs 
         CAST(COALESCE((COALESCE(m.materials_cost,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `CS Material Costs`,
 	--  Equipment Costs  
-    CAST((COALESCE(m.equipment_cost,0)) AS DECIMAL(15,2)) AS `Equipment Costs`,
+    CAST(COALESCE(m.equipment_cost,0) AS DECIMAL(15,2)) AS `Equipment Costs`,
 		-- CS Equipment Costs 
         CAST(COALESCE((COALESCE(m.equipment_cost,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `CS Equipment Costs`, 
 	--  Subcontracts Costs  
-    CAST((COALESCE(m.subcontracts_cost,0)) AS DECIMAL(15,2)) AS `Subcontracts Costs`,
+    CAST(COALESCE(m.subcontracts_cost,0) AS DECIMAL(15,2)) AS `Subcontracts Costs`,
 		-- CS Subcontracts Costs
 		CAST(COALESCE((COALESCE(m.subcontracts_cost,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `CS Subcontracts Costs`,
 	-- Other Costs  
-    CAST((COALESCE(m.other_direct_COGS,0)) AS DECIMAL(15,2)) AS `Other Direct Costs`,
+    CAST(COALESCE(m.other_direct_COGS,0) AS DECIMAL(15,2)) AS `Other Direct Costs`,
 		-- CS Other Direct Costs
         CAST(COALESCE(COALESCE(m.other_direct_COGS,0)/COALESCE(m.revenues,0),0) AS DECIMAL(10,6)) AS `CS Other Direct Costs`,
 	-- Gross Profit  
