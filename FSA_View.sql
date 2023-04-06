@@ -417,10 +417,10 @@ SELECT
     CAST(COALESCE((COALESCE(m.total_backlog,0) / (COALESCE(m.shareholder_member_partner_equity,0)-COALESCE(m.non_controlling_interest,0))),0) AS DECIMAL(10,6)) AS `Backlog to Equity`,
     
     -- Overhead to Revenue
-    CAST(COALESCE((COALESCE(m.`total_SG&A`,0) / COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `Overhead to Revenue`,
+    CAST(COALESCE((COALESCE(m.total_operating_expenses,0) / COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `Overhead to Revenue`,
     
     -- Overhead to Direct Costs
-    CAST(COALESCE((COALESCE(m.`total_SG&A`,0) / COALESCE(m.total_COGS,0)),0) AS DECIMAL(10,6)) AS `Overhead to Direct Costs`,
+    CAST(COALESCE((COALESCE(m.total_operating_expenses,0) / COALESCE(m.total_direct_costs,0)),0) AS DECIMAL(10,6)) AS `Overhead to Direct Costs`,
     
     -- Times Interest Earned 
     CAST(COALESCE(((COALESCE(m.gross_profit,0)-COALESCE(m.`total_SG&A`,0)) / COALESCE(m.interest_expense,0)),0) AS DECIMAL(10,6)) AS `Times Interest Earned`,
@@ -438,14 +438,13 @@ SELECT
     CAST((COALESCE(COALESCE(m.revenues,0) / (COALESCE(m.shareholder_member_partner_equity,0)-COALESCE(m.non_controlling_interest,0)),0)) AS DECIMAL(10,6)) AS `Equity Turnover`,
     
     -- Materials & Subcontracts to Labor Ratio
-    -- Null value when ratio is greater than 2. When ratio is greater than 200% it is likely irrelevent to the type of contractor.   
+    -- Adjusted for outliers  
     CAST(COALESCE((CASE 
-		WHEN ((COALESCE(m.materials_cost,0)+COALESCE(m.subcontracts_cost,0))/COALESCE(m.labor_cost,0)) > 2 OR
-			 ((COALESCE(m.materials_cost,0)+COALESCE(m.subcontracts_cost,0))/COALESCE(m.labor_cost,0)) < -2 THEN NULL
-		ELSE ((COALESCE(m.materials_cost,0)+COALESCE(m.subcontracts_cost,0))/COALESCE(m.labor_cost,0))
+		WHEN COALESCE((COALESCE((COALESCE(m.materials_cost,0)+COALESCE(m.subcontracts_cost,0)),0)/COALESCE(m.labor_cost,0)),0) > 2 OR
+			 COALESCE((COALESCE((COALESCE(m.materials_cost,0)+COALESCE(m.subcontracts_cost,0)),0)/COALESCE(m.labor_cost,0)),0) < -2 THEN NULL
+		ELSE COALESCE((COALESCE((COALESCE(m.materials_cost,0)+COALESCE(m.subcontracts_cost,0)),0)/COALESCE(m.labor_cost,0)),0)
 	END),0) AS DECIMAL(10,6)) AS `Materials & Subcontract to Labor Ratio`,
 
-    
     -- Degree of Fixed Asset Newness
     CAST(COALESCE((CASE
     WHEN (COALESCE(m.`property_plant_&_equipment_net`,0)/COALESCE(m.`property_plant_&_equipment_gross`,0))=1 THEN NULL
