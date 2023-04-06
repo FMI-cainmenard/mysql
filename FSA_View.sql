@@ -375,7 +375,7 @@ SELECT
     CAST(COALESCE((COALESCE(m.total_assets,0)/COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `Total Assets to Revenue`,
     
     -- Days of Cash-on-Hand
-    CAST(COALESCE(((COALESCE(m.`cash_&_cash_equivalents`,0) + COALESCE(m.marketable_securities, 0)) / (COALESCE(m.`total_SG&A`,0) + (COALESCE(m.interest_expense,0)/365))),0) AS DECIMAL(10,6)) AS `Days of Cash-on-Hand`,
+    CAST(COALESCE((COALESCE(m.`cash_&_cash_equivalents`,0) / ((COALESCE(m.`total_SG&A`,0) + (COALESCE(m.interest_expense,0)))/365)),0) AS DECIMAL(10,6)) AS `Days of Cash-on-Hand`,
 
     -- Days of Underbillings
     CAST(COALESCE((COALESCE(m.`cost_&_estimated_earnings_in_excess_of_billings`,0) / (COALESCE(m.revenues,0)/365)),0) AS DECIMAL(10,6)) AS `Days of Underbillings`,
