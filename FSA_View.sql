@@ -10,38 +10,38 @@ SELECT
     a.`Id` AS `Salesforce ID`,
     m.`fsa_year` AS `Year`,
     -- NAICS Code
-    CASE 
-		WHEN COALESCE(REPLACE(c.`NAICS Code`,"P",""),COALESCE(a.NAICSCode__c,'NULL')) = '335999'
-			THEN '444100'
-		WHEN COALESCE(REPLACE(c.`NAICS Code`,"P",""),COALESCE(a.NAICSCode__c,'NULL')) = '423320'
-			THEN '444100'
-		WHEN COALESCE(REPLACE(c.`NAICS Code`,"P",""),COALESCE(a.NAICSCode__c,'NULL')) = '531210'
-			THEN '236220'
-		WHEN COALESCE(REPLACE(c.`NAICS Code`,"P",""),COALESCE(a.NAICSCode__c,'NULL')) = '484110' 
-			AND (COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'Highway, Street, and Bridge Construction' OR 'Highway, Street & Bridge Construction')
-			THEN '237310'
-		WHEN COALESCE(REPLACE(c.`NAICS Code`,"P",""),COALESCE(a.NAICSCode__c,'NULL')) = '336992'
-			THEN '236210'
-		ELSE COALESCE(REPLACE(c.`NAICS Code`,"P",""),COALESCE(a.NAICSCode__c,'NULL'))
-		END AS `NAICS Code`,
+    COALESCE(
+        CASE 
+            WHEN COALESCE(REPLACE(c.`NAICS Code`, 'P', ''), a.NAICSCode__c) IN ('335999', '423320') THEN '444100'
+            WHEN COALESCE(REPLACE(c.`NAICS Code`, 'P', ''), a.NAICSCode__c) = '531210' THEN '236220'
+            WHEN COALESCE(REPLACE(c.`NAICS Code`, 'P', ''), a.NAICSCode__c) = '484110' 
+                AND COALESCE(c.`NAICS Industry`, a.NAICSDesc__c) IN ('Highway, Street, and Bridge Construction', 'Highway, Street & Bridge Construction') THEN '237310'
+            WHEN COALESCE(REPLACE(c.`NAICS Code`, 'P', ''), a.NAICSCode__c) = '336992' THEN '236210'
+            ELSE COALESCE(REPLACE(c.`NAICS Code`, 'P', ''), a.NAICSCode__c)
+        END, 'NULL'
+    ) AS `NAICS Code`,
     -- RMA NAICS Industry
-    CASE 
-		WHEN COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'Highway, Street, and Bridge Construction'
-			THEN 'Highway, Street & Bridge Construction'
-		WHEN COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'Industrial Building'
-			THEN 'Industrial Building Construction'
-		WHEN COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'All Other Miscellaneous Electrical Equipment and Component Manufacturing'
-			THEN 'Building Material and Supplies Dealers'
-		WHEN COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'Brick, Stone, and Related Construction Material Merchant Wholesalers'
-			THEN 'Building Material and Supplies Dealers'
-		WHEN COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'Commercial and Institutional Building Construction'
-			THEN 'Commercial & Institutional Building Construction'
-		WHEN COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'Plumbing, Heating, and Air-Conditioning Contractors'
-			THEN 'Plumbing, Heating, & Air-Conditioning'
-		WHEN COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL')) = 'Water and Sewer Line and Related Structures Construction'
-			THEN 'Water and Sewer Line & Related Structures Construction'
-		ELSE COALESCE(c.`NAICS Industry`,COALESCE(a.NAICSDesc__c,'NULL'))
-		END AS `NAICS Industry`,
+COALESCE(
+        CASE 
+            WHEN COALESCE(c.`NAICS Industry`, a.NAICSDesc__c) IN (
+                'Highway, Street, and Bridge Construction', 
+                'Industrial Building', 
+                'All Other Miscellaneous Electrical Equipment and Component Manufacturing', 
+                'Brick, Stone, and Related Construction Material Merchant Wholesalers', 
+                'Commercial and Institutional Building Construction', 
+                'Plumbing, Heating, and Air-Conditioning Contractors', 
+                'Water and Sewer Line and Related Structures Construction'
+            ) THEN REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(COALESCE(c.`NAICS Industry`, a.NAICSDesc__c), 
+                'Highway, Street, and Bridge Construction', 'Highway, Street & Bridge Construction'), 
+                'Industrial Building', 'Industrial Building Construction'), 
+                'All Other Miscellaneous Electrical Equipment and Component Manufacturing', 'Building Material and Supplies Dealers'), 
+                'Brick, Stone, and Related Construction Material Merchant Wholesalers', 'Building Material and Supplies Dealers'), 
+                'Commercial and Institutional Building Construction', 'Commercial & Institutional Building Construction'), 
+                'Plumbing, Heating, and Air-Conditioning Contractors', 'Plumbing, Heating, & Air-Conditioning'), 
+                'Water and Sewer Line and Related Structures Construction', 'Water and Sewer Line & Related Structures Construction')
+            ELSE COALESCE(c.`NAICS Industry`, a.NAICSDesc__c)
+        END, 'NULL'
+    ) AS `NAICS Industry`,
     a.Primary_Sector__c AS `Primary Sector`,
     pg.`Name` AS `Peer Group`, 
     COALESCE(pg2.`Name`, '') AS `Peer Group 2`,
