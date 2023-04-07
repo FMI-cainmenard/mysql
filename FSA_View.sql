@@ -45,6 +45,8 @@ COALESCE(
     a.Primary_Sector__c AS `Primary Sector`,
     pg.`Name` AS `Peer Group`, 
     COALESCE(pg2.`Name`, '') AS `Peer Group 2`,
+    a.Peer_Group_Company_Status__c AS `Peer Group Status`, 
+    a.X2nd_Peer_Group_Company_Status__c AS `Peer 2 Group Status`, 
     
 -- Balance Sheet - Assets
 	-- Cash & Cash Equivalents
@@ -398,7 +400,7 @@ COALESCE(
     CAST(COALESCE(((COALESCE(m.accounts_payable_total,0) - COALESCE(m.accounts_payable_retention,0)) / (COALESCE(m.revenues,0)/365)),0) AS DECIMAL(10,6)) AS `Days of Accounts Payable (less Retention)`,
     
     -- Fixed Assets (net) to Equity
-    CAST(COALESCE((COALESCE(m.total_fixed_assets_net,0) / (COALESCE(m.shareholder_member_partner_equity,0)-COALESCE(m.non_controlling_interest,0))),0) AS DECIMAL(10,6)) AS `Fixed Assets (net) to Equity`,
+    CAST(COALESCE(COALESCE(m.total_fixed_assets_net,0) / (COALESCE(m.shareholder_member_partner_equity,0)-COALESCE(m.non_controlling_interest,0)),0) AS DECIMAL(10,6)) AS `Fixed Assets (net) to Equity`,
     
     -- Equity Multiplier
     CAST(COALESCE(COALESCE(m.total_assets,0) / (COALESCE(m.shareholder_member_partner_equity,0)-COALESCE(m.non_controlling_interest,0)),0) AS DECIMAL(10,6)) AS `Equity Multiplier`,
