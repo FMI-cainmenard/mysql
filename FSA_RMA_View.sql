@@ -49,13 +49,10 @@ CAST(a.`Days of Underbillings` AS DECIMAL(10,6)) AS `Days of Underbillings`,
 CAST(a.`Days of Overbillings` AS DECIMAL(10,6)) AS `Days of Overbillings`,
 CAST(a.`Days of Accounts Receivable` AS DECIMAL(10,6)) AS `Days of Accounts Receivable`,
 CAST(a.`Days of Accounts Payable` AS DECIMAL(10,6)) AS `Days of Accounts Payable`,
-CAST(a.`Fixed Assets (net) to Equity` AS DECIMAL(10,3)) AS `Fixed Assets (net) to Equity`,
-
+-- Fixed Assets (net) to Equity
+CAST(COALESCE(COALESCE(a.`Total Fixed Assets`,0) / COALESCE(a.`Shareholder's Equity`,0),0)AS DECIMAL(10,3)) AS `Fixed Assets (net) to Equity`,
 -- Equity Multiplier 
-CAST(
-(IFNULL(a.`Total Assets`,0)/(IFNULL(a.`Shareholder's Equity`,0)))
-AS DECIMAL(10,3)) AS `Equity Multiplier`,
-
+CAST((IFNULL(a.`Total Assets`,0)/(IFNULL(a.`Shareholder's Equity`,0)))AS DECIMAL(10,3)) AS `Equity Multiplier`,
 CAST(a.`Times Interest Earned` AS DECIMAL(10,3)) AS `Times Interest Earned`,
 CAST(a.`Working Capital Turnover` AS DECIMAL(10,3)) AS `Working Capital Turnover`,
 CAST(a.`Asset Turnover` AS DECIMAL(10,3)) AS `Asset Turnover`,
@@ -86,14 +83,11 @@ CAST(a.`Underbillings to Equity` AS DECIMAL(10,3)) AS `Underbillings to Equity`,
 CAST(a.`Overhead to Direct Costs` AS DECIMAL(10,3)) AS `Overhead to Direct Costs`,
 CAST(a.`Accounts Payable to Revenue` AS DECIMAL(10,3)) AS `Accounts Payable to Revenue`,
 CAST(a.`Profit Before Taxes` AS DECIMAL(10,3)) AS `Profit Before Taxes`,
-
 -- Equity Turnover
 CAST(a.`Equity Turnover` AS DECIMAL(10,3)) AS `Equity Turnover`,
-
 -- Overhead Margin
 CAST((IFNULL(a.`Total Operating Expenses`,0)/IFNULL(a.`Revenues`,0)) 
 AS DECIMAL(10,3)) AS `Overhead Margin`,
-
 CAST(a.`Net Income/(Loss) Before Taxes` AS DECIMAL(10,3)) AS `Net Income/(Loss) Before Taxes`,
 CAST(a.`Debt to Equity` AS DECIMAL(10,3)) AS `Debt to Equity`,
 CAST(a.`Operating Margin` AS DECIMAL(10,3)) AS `Operating Margin`,
