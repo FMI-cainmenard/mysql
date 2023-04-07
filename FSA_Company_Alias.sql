@@ -1,5 +1,3 @@
-
--- Use Insights database 
 USE Insights;
 
 -- Drop if exists to recreate
@@ -15,7 +13,7 @@ CREATE TABLE Company_Alias (
 INSERT INTO Company_Alias (Data_Key__c, Alias)
 SELECT DISTINCT
     a.Data_Key__c,
-    CONCAT(CHAR(FLOOR(RAND() * 26 + 65)), CHAR(FLOOR(RAND() * 26 + 97))) AS Alias
+    CONCAT(CHAR(FLOOR(RAND() * 26) + 65),CHAR(FLOOR(RAND() * 26) + 97),CAST(FLOOR(RAND() * 10) AS CHAR(1))) AS Alias
 FROM
     SF_account a
 LEFT JOIN
