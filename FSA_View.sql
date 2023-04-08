@@ -468,12 +468,15 @@ COALESCE(
     AS DECIMAL(10,6)) AS `Months in Backlog`
      
 FROM 
-    Company_Alias ca
-    LEFT JOIN SF_account a ON a.Data_Key__c = ca.Data_Key__c
-    INNER JOIN FSA_Main m ON a.`Id` = m.salesforce_ID
-	LEFT JOIN RMA_FSA_full AS c ON m.`fsa_year` = c.`Year`
-    LEFT JOIN SF_peer_groups AS pg ON a.Peer_Group__c = pg.Id
+    SF_account a 
+	INNER JOIN FSA_Main m ON m.Data_Key__c = a.Data_Key__c
+	LEFT JOIN SF_peer_groups pg ON pg.`Id` = a.Peer_Group__c
     LEFT JOIN SF_peer_groups AS pg2 ON a.X2nd_Peer_Group__c = pg2.Id
+    LEFT JOIN Company_Alias ca ON a.Data_Key__c = ca.Data_Key__c
+	LEFT JOIN RMA_FSA_full AS c ON a.NAICSCode__c = c.`NAICS Code` AND m.`fsa_year` = c.`Year`
 
-GROUP BY a.Data_Key__c, `Company Name`, `Company Alias`, `Salesforce ID`, m.`fsa_year`, a.NAICSCode__c, a.NAICSDesc__c, `Primary Sector`, pg.`Name`, pg2.`Name`
+GROUP BY a.Data_Key__c,  m.`fsa_year`
+
 ;
+
+
