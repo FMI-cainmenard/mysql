@@ -299,12 +299,13 @@ COALESCE(
         ,0) AS DECIMAL(10,6)) AS `CS Cash Outflows`,
     -- Net Increase (Decrease) in Cash  
     CAST(COALESCE(
-    COALESCE(m.cash_inflows,0)-COALESCE(m.cash_outflows,0) 
-    ,0) AS DECIMAL(15,2)) AS `Net Increase (Decrease) in Cash`,
+    (COALESCE(m.cash_flows_from_operating_activities,0)+COALESCE(m.cash_flows_from_investing_activities,0)+
+	COALESCE(m.cash_flows_from_investing_activities,0)),0) AS DECIMAL(15,2)) AS `Net Increase (Decrease) in Cash`,
 		-- CS Net Increase (Decrease) in Cash
-        CAST(COALESCE(
-        ((COALESCE(m.cash_inflows,0)-COALESCE(m.cash_outflows,0))/COALESCE(m.revenues,0)) 
-        ,0) AS DECIMAL(10,6)) AS `CS Net Increase (Decrease) in Cash`,
+		CAST(COALESCE(
+		((COALESCE(m.cash_flows_from_operating_activities,0)/COALESCE(m.revenues,0))+(COALESCE(m.cash_flows_from_investing_activities,0)/COALESCE(m.revenues,0))+
+		(COALESCE(m.cash_flows_from_investing_activities,0)/COALESCE(m.revenues,0))/COALESCE(m.revenues,0)),0) 
+        AS DECIMAL(10,6)) AS `CS Net Increase (Decrease) in Cash`,
 
 --     -- Financial Ratios  
 --     -- Current Ratio
