@@ -49,11 +49,11 @@ CAST(a.`Days of Overbillings` AS DECIMAL(10,6)) AS `Days of Overbillings`,
 CAST(a.`Days of Accounts Receivable` AS DECIMAL(10,6)) AS `Days of Accounts Receivable`,
 CAST(a.`Days of Accounts Payable` AS DECIMAL(10,6)) AS `Days of Accounts Payable`,
 -- Fixed Assets (net) to Equity
-CAST(a.`Total Fixed Assets` / a.`Shareholder's Equity` AS DECIMAL(10,3)) AS `Fixed Assets (net) to Equity`,
+CAST(IFNULL(IFNULL(a.`Total Fixed Assets`,0) / IFNULL(a.`Shareholder's Equity`,0),0) AS DECIMAL(10,3)) AS `Fixed Assets (net) to Equity`,
 
 -- Equity Multiplier 
 CAST(
-(IFNULL(a.`Total Assets`,0)/(IFNULL(a.`Shareholder's Equity`,0)))
+IFNULL(IFNULL(a.`Total Assets`,0)/IFNULL(a.`Shareholder's Equity`,0),0)
 AS DECIMAL(10,3)) AS `Equity Multiplier`,
 
 CAST(a.`Times Interest Earned` AS DECIMAL(10,3)) AS `Times Interest Earned`,
@@ -91,7 +91,7 @@ CAST(a.`Profit Before Taxes` AS DECIMAL(10,3)) AS `Profit Before Taxes`,
 CAST(a.`Equity Turnover` AS DECIMAL(10,3)) AS `Equity Turnover`,
 
 -- Overhead Margin
-CAST((a.`Total Operating Expenses`/a.`Revenues`) 
+CAST(IFNULL(IFNULL(a.`Total Operating Expenses`,0)/IFNULL(a.`Revenues`,0),0) 
 AS DECIMAL(10,3)) AS `Overhead Margin`,
 
 CAST(a.`Net Income/(Loss) Before Taxes` AS DECIMAL(10,3)) AS `Net Income/(Loss) Before Taxes`,
