@@ -220,10 +220,10 @@ COALESCE(
     CAST((COALESCE(m.`total_SG&A`,0)) AS DECIMAL(15,2)) AS `Operating Expenses (SG&A)`,
 		-- CS Total Operating Expenses 
         CAST(COALESCE(COALESCE(m.`total_SG&A`,0)/COALESCE(m.revenues,0),0) AS DECIMAL(10,6)) AS `CS Operating Expenses (SG&A)`,
-	-- Operating Margin  
-    CAST(COALESCE(COALESCE(m.gross_profit,0)-COALESCE(m.`total_SG&A`,0),0) AS DECIMAL(15,2)) AS `Operating Margin`,
-		-- CS Operating Margin 
-        CAST(COALESCE((COALESCE(m.gross_profit,0)-COALESCE(m.`total_SG&A`,0))/COALESCE(m.revenues,0),0) AS DECIMAL(10,6)) AS `CS Operating Margin`,
+    -- Operating Income (EBIT)  
+    CAST(COALESCE(m.ebit,0) AS DECIMAL(15,2)) AS `Operating Income (EBIT)`,
+		-- CS Operating Income (EBIT)
+        CAST(COALESCE(COALESCE(m.ebit,0)/COALESCE(m.revenues,0),0) AS DECIMAL(10,6)) AS `CS Operating Income (EBIT)`,
 	-- Other Income or Expense  
     CAST(COALESCE(
     COALESCE(m.other_income_loss,0)+COALESCE(m.gain_loss_on_sale_of_assets,0)+COALESCE(m.other_expenses,0)+COALESCE(m.joint_venture_income,0)+
