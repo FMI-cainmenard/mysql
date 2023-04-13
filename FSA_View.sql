@@ -331,7 +331,13 @@ COALESCE(
     
     -- Overbillings to Underbillings
     CAST(COALESCE((COALESCE(m.`billings_in_excess_of_costs_&_estimated_earnings`,0)/COALESCE(m.`cost_&_estimated_earnings_in_excess_of_billings`,0)) ,0) AS DECIMAL(10,6)) AS `Overbillings to Underbillings`,
---     
+
+	-- Operating Profit Margin
+    CAST(COALESCE((CASE
+		WHEN (COALESCE(m.ebit,0)/COALESCE(m.revenues,0))=1 THEN NULL
+        ELSE (COALESCE(m.ebit,0)/COALESCE(m.revenues,0)) END)
+	,0) AS DECIMAL(10,6)) AS `Operating Profit Margin`,
+
     -- Gross Profit Margin
     CAST(COALESCE((CASE
 		WHEN (COALESCE(m.gross_profit,0)/COALESCE(m.revenues,0))=1 THEN NULL
@@ -339,7 +345,7 @@ COALESCE(
 	,0) AS DECIMAL(10,6)) AS `Gross Profit Margin`,
     
 	-- EBIT Margin
-    CAST(COALESCE(COALESCE(m.ebitda,0)/COALESCE(m.revenues,0),0) AS DECIMAL(10,6)) AS `EBIT Margin`,
+    CAST(COALESCE(COALESCE(m.ebit,0)/COALESCE(m.revenues,0),0) AS DECIMAL(10,6)) AS `EBIT Margin`,
     
     -- EBITDA Margin
     CAST(COALESCE(COALESCE(m.ebitda,0) / COALESCE(m.revenues,0),0) AS DECIMAL(10,6)) AS `EBITDA Margin`,
