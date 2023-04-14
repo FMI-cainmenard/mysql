@@ -76,6 +76,10 @@ COALESCE(
     CAST(COALESCE(m.accounts_receivable_retention,0) AS DECIMAL(15,2)) AS `Accounts Receivable - Current Retention`,
 		-- CS Accounts Receivable - Current Retention
 		CAST(COALESCE(COALESCE(m.accounts_receivable_retention,0)/COALESCE(m.total_assets,0),0) AS DECIMAL(10,6)) AS `CS Accounts Receivable - Current Retention`,
+	-- Notes Receivable      
+    CAST((COALESCE(m.notes_receivable,0)) AS DECIMAL(15,2)) AS `Notes Receivable`,
+		-- CS Notes Receivable 
+        CAST(COALESCE((COALESCE(m.notes_receivable,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Notes Receivable`,
 	-- Total Accounts Receivable
     CAST(COALESCE(m.accounts_receivable_total,0) AS DECIMAL(15,2)) AS `Total Accounts Receivable`,
 		-- CS Total Accounts Receivable
@@ -332,7 +336,7 @@ COALESCE(
     -- Overbillings to Underbillings
     CAST(COALESCE((COALESCE(m.`billings_in_excess_of_costs_&_estimated_earnings`,0)/COALESCE(m.`cost_&_estimated_earnings_in_excess_of_billings`,0)) ,0) AS DECIMAL(10,6)) AS `Overbillings to Underbillings`,
 
-	-- Operating Profit Margin
+	-- Operating Profit (EBIT) Margin
     CAST(COALESCE((CASE
 		WHEN (COALESCE(m.ebit,0)/COALESCE(m.revenues,0))=1 THEN NULL
         ELSE (COALESCE(m.ebit,0)/COALESCE(m.revenues,0)) END)
