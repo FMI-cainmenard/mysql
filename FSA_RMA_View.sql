@@ -97,6 +97,11 @@ AS DECIMAL(10,3)) AS `Overhead Margin`,
 CAST(a.`Net Income/(Loss) Before Taxes` AS DECIMAL(10,3)) AS `Net Income/(Loss) Before Taxes`,
 CAST(a.`Debt to Equity` AS DECIMAL(10,3)) AS `Debt to Equity`,
 CAST(a.`Operating Margin` AS DECIMAL(10,3)) AS `Operating Margin`,
+
+-- Operating Income (EBIT)
+CAST(IFNULL(IFNULL(a.`Gross Profit`,0)-IFNULL(a.`Total Operating Expenses`,0),0) 
+AS DECIMAL(10,3)) AS `Operating Income (EBIT)`,
+
 CAST(a.`Total Operating Expenses` AS DECIMAL(10,3)) AS `Total Operating Expenses`
 
 FROM Insights.RMA_FSA_full AS a
