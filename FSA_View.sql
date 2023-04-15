@@ -93,29 +93,41 @@ COALESCE(
 		-- CS Cost & Estimated Earnings in Excess if Billings 
         CAST(COALESCE((COALESCE(m.`cost_&_estimated_earnings_in_excess_of_billings`,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Cost & Estimated Earnings in Excess of Billings`,
 	-- All Other Current Assets 
-    CAST(COALESCE(m.all_other_current_assets,0) AS DECIMAL(15,2)) AS `All Other Current Assets`,
+    CAST(1 AS DECIMAL(15,2)) AS `All Other Current Assets`,
 		-- CS All Other Current Assets 
-        CAST(COALESCE((COALESCE(m.all_other_current_assets,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS All Other Current Assets`,
+        CAST(1 AS DECIMAL(10,6)) AS `CS All Other Current Assets`,
+		-- All Other Current Assets 
+    CAST(COALESCE(m.all_other_current_assets,0) AS DECIMAL(15,2)) AS `Other Current Assets`,
+		-- CS All Other Current Assets 
+        CAST(COALESCE((COALESCE(m.all_other_current_assets,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Other Current Assets`,
 	-- Total Current Assets  
     CAST((COALESCE(m.total_current_assets,0)) AS DECIMAL(15,2)) AS `Total Current Assets`,
 		-- CS Total Current Assets 
         CAST(COALESCE(COALESCE(m.total_current_assets,0)/COALESCE(m.total_assets,0),0) AS DECIMAL(10,6)) AS `CS Total Current Assets`,
 	-- Property, Plant & Equipment  
-    CAST(COALESCE(m.`property_plant_&_equipment_gross`,0) AS DECIMAL(15,2)) AS `Property, Plant & Equipment`,
+    CAST(1 AS DECIMAL(15,2)) AS `Property, Plant & Equipment`,
 		-- CS Property, Plant & Equipment
-        CAST(COALESCE(COALESCE(m.`property_plant_&_equipment_gross`,0)/COALESCE(m.total_assets,0),0) AS DECIMAL(10,6)) AS `CS Property, Plant & Equipment`,
+        CAST(1 AS DECIMAL(10,6)) AS `CS Property, Plant & Equipment`,
+		-- Property, Plant & Equipment  
+    CAST(COALESCE(m.`property_plant_&_equipment_gross`,0) AS DECIMAL(15,2)) AS `Total Fixed Assets`,
+		-- CS Property, Plant & Equipment
+        CAST(COALESCE(COALESCE(m.`property_plant_&_equipment_gross`,0)/COALESCE(m.total_assets,0),0) AS DECIMAL(10,6)) AS `CS Total Fixed Assets`,
 	-- Less Accumulated Depreciation  
     CAST(COALESCE(m.accumulated_depreciation,0) AS DECIMAL(15,2)) AS `Less Accumulated Depreciation`,
 		-- CS Less Accumulated Depreciation
         CAST(COALESCE((COALESCE(m.accumulated_depreciation,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Less Accumulated Depreciation`,
 	-- Total Fixed Assets  
-    CAST(COALESCE(m.total_fixed_assets_net,0) AS DECIMAL(15,2)) AS `Total Fixed Assets`,
+    CAST(1 AS DECIMAL(15,2)) AS `Total Fixed Assets Net`,
 		-- CS Total Fixed Assets 
-        CAST(COALESCE((COALESCE(m.total_fixed_assets_net,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Total Fixed Assets`,
-	-- Total Non-Current Assets  
-    CAST(COALESCE(m.total_non_current_assets,0) AS DECIMAL(15,2)) AS `Total Non-Current Assets`,
-		-- CS Total Non-Current Assets 
-        CAST(COALESCE((COALESCE(m.total_non_current_assets,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Total Non-Current Assets`,
+        CAST(1 AS DECIMAL(10,6)) AS `CS Total Fixed Assets Net`,
+		-- Net Fixed Assets  
+    CAST(COALESCE(m.total_fixed_assets_net,0) AS DECIMAL(15,2)) AS `Net Fixed Assets`,
+		-- CS Net Fixed Assets 
+        CAST(COALESCE((COALESCE(m.total_fixed_assets_net,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Net Fixed Assets`,
+    -- Other Assets
+	CAST(COALESCE(COALESCE(m.total_non_current_assets,m.all_other_non_current_assets),0) AS DECIMAL(15,2)) AS `Other Assets`,
+		-- CS Other Assets
+        CAST(COALESCE((COALESCE(m.total_non_current_assets,m.all_other_non_current_assets)/m.total_assets),0) AS DECIMAL(10,6)) AS `CS Other Assets`,
 	-- Total Assets  
     CAST(COALESCE(m.total_assets,0) AS DECIMAL(15,2)) AS `Total Assets`,
 		-- CS Total Assets 
@@ -162,6 +174,12 @@ COALESCE(
     CAST((COALESCE(m.all_other_current_liabilities,0)) AS DECIMAL(15,2)) AS `All Other Current Liabilities`,
 		-- CS All Other Current Liabilities
         CAST(COALESCE((COALESCE(m.all_other_current_liabilities,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS All Other Current Liabilities`,
+	-- Other Current Liabilities  
+    CAST((COALESCE(m.all_other_current_liabilities,0)+COALESCE(m.revolving_credit_line,0)) AS DECIMAL(15,2)) AS `Other Current Liabilities`,
+		-- CS Other Current Liabilities
+        CAST(COALESCE((COALESCE(COALESCE(m.all_other_current_liabilities,0)/COALESCE(m.total_assets,0),0)+
+        COALESCE(COALESCE(m.revolving_credit_line,0)/COALESCE(m.total_assets,0),0)),0) 
+        AS DECIMAL(10,6)) AS `CS Other Current Liabilities`,
 	-- Total Current Liabilities  
     CAST((COALESCE(m.total_current_liabilities,0)) AS DECIMAL(15,2)) AS `Total Current Liabilities`,
 		-- CS Total Current Liabilities 
@@ -171,9 +189,13 @@ COALESCE(
 		-- CS Long-Term Debt (Net of Current Portion)
         CAST(COALESCE((COALESCE(m.long_term_debt_net_of_current_portion,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS Long-Term Debt (Net of Current Portion)`,
 	-- All Other Non-Current Liabilities  
-    CAST((COALESCE(m.all_other_non_current_liabilities,0)) AS DECIMAL(15,2)) AS `All Other Non-Current Liabilities`,
+    CAST(1 AS DECIMAL(15,2)) AS `All Other Non-Current Liabilities`,
 		-- CS All Other Non-Current Liabilities
-        CAST(COALESCE((COALESCE(m.all_other_non_current_liabilities,0)/COALESCE(m.total_assets,0)),0) AS DECIMAL(10,6)) AS `CS All Other Non-Current Liabilities`,
+        CAST(1 AS DECIMAL(10,6)) AS `CS All Other Non-Current Liabilities`,
+		-- All Other Non-Current Liabilities  
+    CAST(COALESCE(m.all_other_non_current_liabilities,0) AS DECIMAL(15,2)) AS `Other Liabilities`,
+		-- CS All Other Non-Current Liabilities
+        CAST(COALESCE(COALESCE(m.all_other_non_current_liabilities,0)/COALESCE(m.total_assets,0),0) AS DECIMAL(10,6)) AS `CS Other Liabilities`,
 	-- Total Liabilities  
     CAST((COALESCE(m.total_liabilities,0)) AS DECIMAL(15,2)) AS `Total Liabilities`,
 		-- CS Total Liabilities 
@@ -487,7 +509,5 @@ FROM
 	LEFT JOIN RMA_FSA_full AS c ON a.NAICSCode__c = c.`NAICS Code` AND m.`fsa_year` = c.`Year`
 
 GROUP BY a.Data_Key__c,  m.`fsa_year`
-
 ;
-
-
+		
