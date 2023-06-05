@@ -1,4 +1,3 @@
-
 USE Insights;
 
 CREATE OR REPLACE VIEW FSA_View AS
@@ -454,10 +453,10 @@ COALESCE(
     CAST(COALESCE((COALESCE(m.total_backlog,0) / (COALESCE(m.shareholder_member_partner_equity,0)-COALESCE(m.non_controlling_interest,0))),0) AS DECIMAL(10,6)) AS `Backlog to Equity`,
     
     -- Overhead to Revenue
-    CAST(COALESCE((COALESCE(m.total_operating_expenses,0) / COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `Overhead to Revenue`,
+    CAST(COALESCE((COALESCE(m.`total_SG&A`,0) / COALESCE(m.revenues,0)),0) AS DECIMAL(10,6)) AS `Overhead to Revenue`,
     
     -- Overhead to Direct Costs
-    CAST(COALESCE((COALESCE(m.total_operating_expenses,0) / COALESCE(m.total_direct_costs,0)),0) AS DECIMAL(10,6)) AS `Overhead to Direct Costs`,
+    CAST(COALESCE((COALESCE(m.`total_SG&A`,0) / COALESCE(m.total_direct_costs,0)),0) AS DECIMAL(10,6)) AS `Overhead to Direct Costs`,
     
     -- Times Interest Earned 
     CAST(COALESCE(((COALESCE(m.gross_profit,0)-COALESCE(m.`total_SG&A`,0)) / COALESCE(m.interest_expense,0)),0) AS DECIMAL(10,6)) AS `Times Interest Earned`,
@@ -510,4 +509,3 @@ FROM
 
 GROUP BY a.Data_Key__c,  m.`fsa_year`
 ;
-		
