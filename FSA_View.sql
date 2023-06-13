@@ -1,6 +1,6 @@
 USE Insights;
 
-CREATE OR REPLACE VIEW FSA_View AS
+CREATE OR REPLACE VIEW FSA_View_T AS
 SELECT 
 -- Company Profile
     a.`Name` AS `Company Name`,
