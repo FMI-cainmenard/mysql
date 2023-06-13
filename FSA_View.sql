@@ -49,11 +49,9 @@ COALESCE(
     
 -- Balance Sheet - Assets
 	-- Cash & Cash Equivalents
-	CAST(COALESCE((COALESCE(m.`cash_&_cash_equivalents`,0) + COALESCE(m.marketable_securities, 0)),0) AS DECIMAL(15,2)) AS `Cash & Cash Equivalents`,
+	CAST((COALESCE(m.`cash_&_cash_equivalents`,0)) AS DECIMAL(15,2)) AS `Cash & Cash Equivalents`,
 		-- CS Cash & Cash Equivalents
-        CAST(COALESCE(
-        ((COALESCE(m.`cash_&_cash_equivalents`,0)/COALESCE(m.total_assets,0)) + (COALESCE(m.marketable_securities, 0))/COALESCE(m.total_assets,0)) 
-        ,0) AS DECIMAL(10,6)) AS `CS Cash & Cash Equivalents`,
+        CAST(COALESCE(((COALESCE(m.`cash_&_cash_equivalents`,0)/COALESCE(m.total_assets,0))),0) AS DECIMAL(10,6)) AS `CS Cash & Cash Equivalents`,
     -- Marketable Securities
 	CAST((COALESCE(m.marketable_securities,0)) AS DECIMAL(15,2)) AS `Marketable Securities`,
 		-- CS Marketable Securities
@@ -253,11 +251,11 @@ COALESCE(
     CAST(COALESCE(
     COALESCE(m.other_income_loss,0)+COALESCE(m.gain_loss_on_sale_of_assets,0)+COALESCE(m.other_expenses,0)+COALESCE(m.joint_venture_income,0)+
     COALESCE(m.interest_expense,0)+COALESCE(m.`interest_&_dividend_income`,0) 
-    ,0) AS DECIMAL(15,2)) AS `Other Income or Expense`,
+    ,0) AS DECIMAL(15,2)) AS `Other Income or Expense`, 
 		-- CS Other Income or Expense
         CAST(COALESCE((((COALESCE(m.other_income_loss,0)/COALESCE(m.revenues,0))+(COALESCE(m.gain_loss_on_sale_of_assets,0)/COALESCE(m.revenues,0))+(COALESCE(m.other_expenses,0)/COALESCE(m.revenues,0))+
         (COALESCE(m.joint_venture_income,0)/COALESCE(m.revenues,0))+(COALESCE(m.interest_expense,0)/COALESCE(m.revenues,0))+(COALESCE(m.`interest_&_dividend_income`,0))/COALESCE(m.revenues,0))) 
-        ,0) AS DECIMAL(10,6)) AS `CS Other Income or Expense`,
+        ,0) AS DECIMAL(10,6)) AS `CS Other Income or Expense`, 
     -- Net Income/(Loss) Before Taxes  
     CAST(COALESCE(m.net_income_loss_before_taxes,0) AS DECIMAL(15,2)) AS `Net Income/(Loss) Before Taxes`,
 		-- CS Net Income/(Loss) Before Taxes
