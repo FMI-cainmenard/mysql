@@ -1,4 +1,7 @@
+-- Use Insights Database
+USE Insights;
 
+-- Create RMA_FSA_full_view
 CREATE OR REPLACE VIEW Insights.RMA_FSA_full_View AS 
 SELECT 
 
@@ -45,11 +48,12 @@ CAST(a.`Days of Underbillings` AS DECIMAL(10,6)) AS `Days of Underbillings`,
 CAST(a.`Days of Overbillings` AS DECIMAL(10,6)) AS `Days of Overbillings`,
 CAST(a.`Days of Accounts Receivable` AS DECIMAL(10,6)) AS `Days of Accounts Receivable`,
 CAST(a.`Days of Accounts Payable` AS DECIMAL(10,6)) AS `Days of Accounts Payable`,
-CAST(a.`Fixed Assets (net) to Equity` AS DECIMAL(10,3)) AS `Fixed Assets (net) to Equity`,
+-- Fixed Assets (net) to Equity
+CAST(IFNULL(IFNULL(a.`Total Fixed Assets`,0) / IFNULL(a.`Shareholder's Equity`,0),0) AS DECIMAL(10,3)) AS `Fixed Assets (net) to Equity`,
 
 -- Equity Multiplier 
 CAST(
-(IFNULL(a.`Total Assets`,0)/(IFNULL(a.`Shareholder's Equity`,0)))
+IFNULL(IFNULL(a.`Total Assets`,0)/IFNULL(a.`Shareholder's Equity`,0),0)
 AS DECIMAL(10,3)) AS `Equity Multiplier`,
 
 CAST(a.`Times Interest Earned` AS DECIMAL(10,3)) AS `Times Interest Earned`,
@@ -62,8 +66,8 @@ CAST(a.`Total Liabilities` AS DECIMAL(10,3)) AS `Total Liabilities`,
 CAST(a.`Total Direct Costs` AS DECIMAL(10,3)) AS `Total Direct Costs`,
 CAST(a.`Total Current Assets` AS DECIMAL(10,3)) AS `Total Current Assets`,
 CAST(a.`Inventory` AS DECIMAL(10,3)) AS `Inventory`,
-CAST(a.`All Other Non-Current Assets` AS DECIMAL(10,3)) AS `All Other Non-Current Assets`,
-CAST(a.`All Other Current Assets` AS DECIMAL(10,3)) AS `All Other Current Assets`,
+CAST(a.`All Other Non-Current Assets` AS DECIMAL(10,3)) AS `Other Assets`,
+CAST(a.`All Other Current Assets` AS DECIMAL(10,3)) AS `Other Current Assets`,
 CAST(a.`Total Assets` AS DECIMAL(10,3)) AS `Total Assets`,
 CAST(a.`All Other Current Liabilities` AS DECIMAL(10,3)) AS `All Other Current Liabilities`,
 CAST(a.`Total Current Liabilities` AS DECIMAL(10,3)) AS `Total Current Liabilities`,
@@ -87,13 +91,20 @@ CAST(a.`Profit Before Taxes` AS DECIMAL(10,3)) AS `Profit Before Taxes`,
 CAST(a.`Equity Turnover` AS DECIMAL(10,3)) AS `Equity Turnover`,
 
 -- Overhead Margin
-CAST((IFNULL(a.`Total Operating Expenses`,0)/IFNULL(a.`Revenues`,0)) 
+CAST(IFNULL(IFNULL(a.`Total Operating Expenses`,0)/IFNULL(a.`Revenues`,0),0) 
 AS DECIMAL(10,3)) AS `Overhead Margin`,
 
 CAST(a.`Net Income/(Loss) Before Taxes` AS DECIMAL(10,3)) AS `Net Income/(Loss) Before Taxes`,
 CAST(a.`Debt to Equity` AS DECIMAL(10,3)) AS `Debt to Equity`,
 CAST(a.`Operating Margin` AS DECIMAL(10,3)) AS `Operating Margin`,
+
+-- Operating Income (EBIT)
+CAST(IFNULL(IFNULL(a.`Gross Profit`,0)-IFNULL(a.`Total Operating Expenses`,0),0) 
+AS DECIMAL(10,3)) AS `Operating Income (EBIT)`,
+
 CAST(a.`Total Operating Expenses` AS DECIMAL(10,3)) AS `Total Operating Expenses`
 
 FROM Insights.RMA_FSA_full AS a
 ;
+
+SELECT * FROM RMA_FSA_full_View;
